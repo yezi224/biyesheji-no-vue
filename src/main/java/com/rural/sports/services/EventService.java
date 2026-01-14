@@ -7,11 +7,13 @@ import com.rural.sports.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EventService {
 
     @Autowired
@@ -36,18 +38,26 @@ public class EventService {
     }
 
     public Event updateEvent(Long id, Event event) {
-        return eventRepository.findById(id).map(existingEvent -> {
-            if (event.getName() != null) existingEvent.setName(event.getName());
-            if (event.getRules() != null) existingEvent.setRules(event.getRules());
-            if (event.getStartTime() != null) existingEvent.setStartTime(event.getStartTime());
-            if (event.getLocation() != null) existingEvent.setLocation(event.getLocation());
-            if (event.getTheme() != null) existingEvent.setTheme(event.getTheme());
-            if (event.getDescription() != null) existingEvent.setDescription(event.getDescription());
-            if (event.getStatus() != null) existingEvent.setStatus(event.getStatus());
-            if (event.getImgUrl() != null) existingEvent.setImgUrl(event.getImgUrl());
-            if (event.getOrganizer() != null) existingEvent.setOrganizer(event.getOrganizer());
-            return eventRepository.save(existingEvent);
-        }).orElse(null);
+        try {
+            return eventRepository.findById(id).map(existingEvent -> {
+                if (event.getName() != null) existingEvent.setName(event.getName());
+                if (event.getRules() != null) existingEvent.setRules(event.getRules());
+                if (event.getStartTime() != null) existingEvent.setStartTime(event.getStartTime());
+                if (event.getLocation() != null) existingEvent.setLocation(event.getLocation());
+                if (event.getTheme() != null) existingEvent.setTheme(event.getTheme());
+                if (event.getDescription() != null) existingEvent.setDescription(event.getDescription());
+                if (event.getStatus() != null) existingEvent.setStatus(event.getStatus());
+                if (event.getImgUrl() != null) existingEvent.setImgUrl(event.getImgUrl());
+                // Only update organizer if it's explicitly provided and valid
+                if (event.getOrganizer() != null && event.getOrganizer().getId() != null) {
+                    existingEvent.setOrganizer(event.getOrganizer());
+                }
+                return eventRepository.save(existingEvent);
+            }).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log error to console
+            throw e;
+        }
     }
 
     public void deleteEvent(Long id) {

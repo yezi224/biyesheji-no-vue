@@ -23,6 +23,7 @@ public class Event {
     private String rules;
     
     @JsonProperty("time")
+    @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startTime;
     
     private Date endTime;

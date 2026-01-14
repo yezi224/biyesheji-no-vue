@@ -3,9 +3,11 @@ package com.rural.sports.controllers;
 import com.rural.sports.models.Event;
 import com.rural.sports.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +42,15 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
-        return eventService.updateEvent(id, event);
+    public ResponseEntity<Map<String, Boolean>> updateEvent(@PathVariable Long id, @RequestBody Event event) {
+        Event updated = eventService.updateEvent(id, event);
+        Map<String, Boolean> response = new HashMap<>();
+        if (updated != null) {
+            response.put("success", true);
+            return ResponseEntity.ok(response);
+        }
+        response.put("success", false);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @DeleteMapping("/{id}")

@@ -40,27 +40,42 @@ public class User implements UserDetails {
     private String responsibleArea;
 
     @Override
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
     @Override
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean isEnabled() {
         return "APPROVED".equals(this.status);
+    }
+    
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+    
+    @JsonProperty("password")
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
