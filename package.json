@@ -1,0 +1,26 @@
+{
+  "name": "village-sports-platform",
+  "version": "1.0.0",
+  "description": "Village Sports Platform with React Frontend and Spring Boot Backend",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.10.3",
+    "@google/genai": "*",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "typescript": "^5.2.2",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@types/node": "^20.10.0"
+  }
+}
